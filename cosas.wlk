@@ -1,27 +1,23 @@
-object rider {
+object knighRider{
+    //  nos sabe decir ambas cosas
     method peso() = 500
-    // le pregunto y me tiene que saber contestar
-    method nivelPeligrosidad() = 10
-    // conoce ambas cosas
+    method peligrosidad() = 10
+    method consecuenciaCarga(){}
+    // vacio porque cuando carga no hace nada
 }
 object bumbeble {
-    var estaTrasformado = false
+    var estaComoRobot = false
+    method estaComoRobot() = estaComoRobot
+    method TrasformarComoAuto() {estaComoRobot = false}
+    // esto es porque si le quiero cambiar el valor
+    method trasformarseEnRobot() {estaComoRobot = true}
+    // esto tambien
     method peso() = 800
-    method estaTrasformado() = estaTrasformado
-    // se acuerde si esta trasnformado
-    // y que me sepa responder si lo esta
-    method trasformacion(){
-        // para cambiarlo
-        // cambiar lo primero de arriba la vriable
-        estaTrasformado = true
+    method peligrosidad(){
+        if (estaComoRobot) 30 else 15
     }
-    method nivelPeligrosidad(){
-        if(estaTrasformado) 30 else 15
-        // expresion ternaria
-        // puedo usar la variable porque
-        // estoy dentro del objeto
-        // cambiar la variable de estar trasnformado
-    }
+    method consecuenciaCarga(){self.trasformarseEnRobot()}
+    // se transforma en robot
 }
 object paqueteLadrillos{
     var cantidadLadrillos = 2
@@ -31,6 +27,8 @@ object paqueteLadrillos{
     // para cambiar el valor en numeros
     method nivelPeligrosidad() = 2
     method peso() = 2 * cantidadLadrillos
+    method consecuenciaCarga(){self.cantidad(12)}
+    // cambia la cantidad de ladrillos
 }
 object arena{
     var peso = 100
@@ -38,15 +36,25 @@ object arena{
     // nuevo peso
     method nivelPeligrosidad() = 1
     method peso() = peso
+    method consecuenciaCarga(){self.peso(peso - 10)}
 }
 object bateria{
-    var estaConMisiles = false
-    method cargarMisiles() {estaConMisiles = true}
-    method descargarMisiles() {estaConMisiles = false}
-    // con esto manejamos la vriable de arriba
-    method peso() = if (estaConMisiles) 300 else 200
-    // el if va con parentesis sino da error
-    method nivelPeligrosidad() = if (estaConMisiles) 100 else 0
+    var estaArmado = true
+    method estaConMisiles(){estaArmado = true}
+    // para cambiar las variables
+    method estaDesarmado() {estaArmado = false}
+    // hacemos metodos
+    method peso(){
+        if(estaArmado) 300 else 200
+        // forma ternaria de poner la alternativa
+    }
+    method peligrosidad(){
+        if(estaArmado) 100 else 0
+        // condicion para que se cumpla
+        // debe de ser verdadera
+    }
+    method consecuenciaCarga(){self.estaConMisiles()}
+    // esta armado
 }
 object contenedor{
     const cosas= []
@@ -73,16 +81,32 @@ object contenedor{
         // devuelve el objeto que tiene mayor 
         // tiene que devolver el NUMERO por eso llamamos a peligrosidad
     }
+    method maxPeligroso(){
+        // le doy un trasformer tambien
+        return cosas.max({p => p.peligrosidad()}.peligrosidad())
+        // para que muestre el OBJETO. si no nos muetsra
+        // el numero
+    }
+    // EL MAX CON EL TRASFORMER me devuelve el objeto
+    // yo quiero que devuelva la peligrosidad en numero
+    method consencuenciaDeLaCarga() {
+      cosas.forEarch({c=>c.consencuenciaDeLaCarga()})}
+      // no hace nada esto es como para disimular
 }
 object residuos{
     var property peso = 200
     // ver despues esta propiedad
     // es como un atributo libre 
     method nivelPeligrosidad() = 200
+    method consecuenciaCarga(){peso += 15}
+    // la variable peso la incrementa eso hay q hacer
+    // se hace con el property
+    // le suma 10 a la variable actual
 }
 object embalaje {
     var cosaEnvuelta = arena 
     // tiene que saber responder esto
+    method cosa(unaCosa) {cosaEnvuelta = unaCosa}
     method peso() = cosaEnvuelta.peso()
     // le preguntamos a la variable osea al objeto
     // el peso del mismo
@@ -91,5 +115,6 @@ object embalaje {
         // dice que es la peligrosidad 
         // la mitad
     }
-    method cosaNueva(objeto){cosaEnvuelta = objeto}
+    method consecuenciaCarga(){}
+    // vacio porque no hace nada pero debe estar igual
 }
